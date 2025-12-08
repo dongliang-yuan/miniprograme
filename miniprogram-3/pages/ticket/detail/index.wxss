@@ -17,11 +17,11 @@ page {
 .detail-header {
   background: transparent;
   backdrop-filter: blur(10rpx);
-  height: calc(128rpx + env(safe-area-inset-top));
+  height: calc(88rpx + env(safe-area-inset-top));
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: calc(env(safe-area-inset-top) + 20rpx) 24rpx 20rpx 24rpx;
+  padding: env(safe-area-inset-top) 24rpx 0 24rpx;
   position: fixed;
   top: 0;
   left: 0;
@@ -146,9 +146,8 @@ page {
 /* 滚动内容区域 */
 .scroll-content {
   flex: 1;
-  margin-top: calc(128rpx + env(safe-area-inset-top));
-  /* 预留底部导航高度，避免被遮挡 */
-  padding-bottom: calc(200rpx + env(safe-area-inset-bottom));
+  margin-top: calc(88rpx + env(safe-area-inset-top));
+  padding-bottom: 120rpx;
 }
 
 /* 产品图片区域 */
@@ -304,127 +303,48 @@ page {
   margin-left: 8rpx;
 }
 
-/* 详情区域 */
-.detail-section {
+/* 内容标签 */
+.content-tabs {
+  display: flex;
+  background: #f5f5f5;
+  border-bottom: 1rpx solid #e0e0e0;
+}
+
+.tab-item {
+  flex: 1;
+  padding: 24rpx 0;
+  text-align: center;
+  background: #f5f5f5;
+  border-bottom: 4rpx solid transparent;
+}
+
+.tab-item.active {
+  background: #fff;
+  border-bottom-color: #1890ff;
+}
+
+.tab-text {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.tab-item.active .tab-text {
+  color: #1890ff;
+  font-weight: 500;
+}
+
+/* 标签内容区域 */
+.tab-content {
+  min-height: 400rpx;
   padding: 32rpx;
   background: #fff;
 }
 
-.section-title {
-  text-align: center;
+.intro-text,
+.info-text-content {
   font-size: 28rpx;
   color: #666;
-  margin-bottom: 12rpx;
-}
-
-.info-title {
-  text-align: center;
-  font-size: 36rpx;
-  color: #0a75d6;
-  font-weight: 700;
-  margin-bottom: 24rpx;
-}
-
-.notice-card {
-  background: #ffe7e6;
-  border-radius: 12rpx;
-  padding: 24rpx;
-  margin-bottom: 16rpx;
-  font-size: 26rpx;
-  color: #d4380d;
-  line-height: 1.6;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
-}
-
-.notice-card .highlight {
-  display: block;
-  color: #d4380d;
-  font-weight: 600;
-  margin: 6rpx 0;
-}
-
-.info-card {
-  background: #e6f3ff;
-  border-radius: 12rpx;
-  padding: 24rpx;
-  margin-bottom: 16rpx;
-  color: #0a75d6;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
-}
-
-.info-row {
-  margin-bottom: 12rpx;
-  display: flex;
-  align-items: flex-start;
-}
-
-.info-row:last-child {
-  margin-bottom: 0;
-}
-
-.info-label {
-  font-size: 28rpx;
-  font-weight: 700;
-  min-width: 150rpx;
-}
-
-.info-value {
-  font-size: 26rpx;
-  color: #0a75d6;
-  line-height: 1.6;
-}
-
-.note-card {
-  background: #e6f7ff;
-  border-radius: 12rpx;
-  padding: 20rpx 24rpx;
-  margin-bottom: 24rpx;
-  font-size: 26rpx;
-  color: #0a75d6;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
-}
-
-.refund-title {
-  text-align: center;
-  font-size: 32rpx;
-  color: #0a75d6;
-  font-weight: 700;
-  margin-bottom: 16rpx;
-}
-
-.refund-table {
-  background: #fff;
-  border: 1rpx solid #e0e0e0;
-  border-radius: 12rpx;
-  overflow: hidden;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
-}
-
-.refund-header,
-.refund-row {
-  display: flex;
-}
-
-.refund-header {
-  background: #e6f3ff;
-  font-weight: 700;
-}
-
-.refund-row:nth-child(odd) {
-  background: #f8fafe;
-}
-
-.refund-cell {
-  flex: 1;
-  padding: 20rpx;
-  font-size: 28rpx;
-  color: #333;
-  text-align: center;
-  box-sizing: border-box;
-}
-
-.refund-cell.left {
-  border-right: 1rpx solid #e0e0e0;
+  line-height: 1.8;
 }
 
 /* 底部导航栏 */
