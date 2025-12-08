@@ -1,6 +1,7 @@
 page {
   background: #f5f5f5;
   padding-bottom: calc(env(safe-area-inset-bottom) + 96rpx);
+  padding-top: env(safe-area-inset-top);
 }
 
 .home-page {
@@ -10,10 +11,14 @@ page {
 /* 顶部导航栏 */
 .home-header {
   background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
-  padding: 20rpx 24rpx;
+  padding: calc(68rpx + env(safe-area-inset-top)) 24rpx 36rpx 24rpx;
   display: flex;
   align-items: center;
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+  box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.08);
 }
 
 .header-left {

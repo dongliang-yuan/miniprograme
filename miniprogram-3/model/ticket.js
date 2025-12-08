@@ -31,6 +31,26 @@ export function getTicketList() {
       route: '长白山→延吉',
       price: '80.00',
     },
+    {
+      id: '7',
+      route: '（拼车）长白山→延吉',
+      price: '80.00',
+    },
+    {
+      id: '8',
+      route: '（拼车）长白山→延吉',
+      price: '80.00',
+    },
+    {
+      id: '9',
+      route: '（拼车）长白山→延吉',
+      price: '80.00',
+    },
+    {
+      id: '10',
+      route: '（拼车）长白山→延吉',
+      price: '80.00',
+    },
   ];
 }
 

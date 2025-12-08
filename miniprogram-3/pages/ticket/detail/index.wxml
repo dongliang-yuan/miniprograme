@@ -1,74 +1,183 @@
 <view class="ticket-detail-page">
   <!-- 顶部导航栏 -->
-  <view class="detail-header">
-    <view class="header-back" bind:tap="goBack">
-      <text class="back-icon">‹</text>
+  <view class="detail-header {{showHeaderTabs ? 'with-tabs' : ''}}">
+    <view class="header-left">
+      <view class="header-btn" bind:tap="goBack">
+        <text class="back-icon">‹</text>
+      </view>
+      <view class="header-btn" bind:tap="showMenu">
+        <text class="menu-icon">☰</text>
+      </view>
     </view>
-    <text class="header-title">车票详情</text>
-    <view class="header-placeholder"></view>
-  </view>
-
-  <!-- 出发地和目的地 -->
-  <view class="route-info">
-    <view class="route-item">
-      <text class="route-label">出发地</text>
-      <text class="route-value">{{departure}}</text>
-    </view>
-    <view class="route-swap" bind:tap="swapRoute">
-      <text class="swap-icon">⇄</text>
-    </view>
-    <view class="route-item">
-      <text class="route-label">目的地</text>
-      <text class="route-value">{{destination}}</text>
-    </view>
-  </view>
-
-  <!-- 日期选择 -->
-  <view class="date-section">
-    <view class="date-display">
-      <text class="date-label">日期</text>
-      <text class="date-value">{{selectedDate}}</text>
-    </view>
-    <button class="date-btn" bind:tap="showDatePicker">选择日期</button>
-  </view>
-
-  <!-- 警告提示 -->
-  <view class="alert-banner">
-    <text class="alert-text">今日车票紧张</text>
-  </view>
-
-  <!-- 车票列表 -->
-  <view class="ticket-list">
-    <view 
-      class="ticket-item" 
-      wx:for="{{ticketList}}" 
-      wx:key="index"
-    >
-      <view class="ticket-time">
-        <view class="time-group">
-          <text class="time-value">{{item.departureTime}}</text>
-          <text class="time-label">{{item.departure}}</text>
+    <!-- 商品和详情按钮，滚动后显示 -->
+    <view class="header-center">
+      <view class="header-tabs {{showHeaderTabs ? 'show' : ''}}">
+        <view class="header-tab {{activeHeaderTab === 'product' ? 'active' : ''}}" bind:tap="scrollToProduct">
+          <text class="header-tab-text">商品</text>
         </view>
-        <view class="time-arrow">→</view>
-        <view class="time-group">
-          <text class="time-value">{{item.arrivalTime}}</text>
-          <text class="time-label">{{item.destination}}</text>
+        <view class="header-tab {{activeHeaderTab === 'detail' ? 'active' : ''}}" bind:tap="scrollToDetail">
+          <text class="header-tab-text">详情</text>
         </view>
       </view>
-      <view class="ticket-footer">
-        <text class="ticket-price">¥{{item.price}}</text>
-        <button class="buy-btn" bind:tap="onBuyTicket" data-index="{{index}}">购买</button>
+    </view>
+    <view class="header-right">
+      <view class="header-btn" bind:tap="onMore">
+        <text class="more-icon">⋮</text>
       </view>
     </view>
   </view>
 
-  <!-- 底部客服电话 -->
-  <view class="service-footer">
-    <view class="service-phone-btn" bind:tap="callService">
-      <text class="phone-icon">📞</text>
-      <text class="service-text">客服电话</text>
+  <!-- 滚动内容区域 -->
+  <scroll-view 
+    class="scroll-content" 
+    scroll-y 
+    scroll-into-view="{{scrollIntoView}}"
+    bindscroll="onScroll"
+    scroll-with-animation="{{true}}"
+  >
+    <!-- 产品图片区域 -->
+    <view id="product-section" class="product-image-section">
+      <swiper class="product-swiper" indicator-dots="{{productImages.length > 1}}" indicator-color="rgba(0,0,0,0.3)" indicator-active-color="#1890ff" autoplay="{{false}}" circular="{{false}}" bindchange="onSwiperChange">
+        <swiper-item wx:for="{{productImages}}" wx:key="index">
+          <view class="product-image-wrapper">
+            <view class="bus-icon" wx:if="{{!item || item === 'bus'}}">🚌</view>
+            <image wx:else class="product-image" src="{{item}}" mode="aspectFit"></image>
+          </view>
+        </swiper-item>
+      </swiper>
     </view>
+
+    <!-- 价格信息 -->
+    <view class="price-section">
+      <text class="price-text">¥{{price}}起</text>
+    </view>
+
+    <!-- 路线信息 -->
+    <view class="route-section">
+      <view class="route-content">
+        <text class="route-text">{{departure}} → {{destination}}</text>
+        <view class="share-btn" bind:tap="onShare">
+          <text class="share-icon">↗</text>
+        </view>
+      </view>
+      <view class="product-info">
+        <text class="info-text">划线价:¥{{originalPrice}}</text>
+        <text class="info-text">库存:{{stockStatus}}</text>
+        <text class="info-text">销量:{{salesCount}}张票</text>
+        <view class="service-icon-btn" bind:tap="callService">
+          <text class="service-icon">🎧</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 选择区域 -->
+    <view class="selection-section" bind:tap="showSpecPicker">
+      <view class="selection-content">
+        <text class="selection-label">已选择: {{selectedTime}},{{selectedDateText}}</text>
+        <view class="spec-preview">
+          <view class="spec-icon" wx:for="{{4}}" wx:key="index">🚌</view>
+        </view>
+        <text class="spec-count">{{specCount}}种规格可选</text>
+        <text class="arrow-icon">›</text>
+      </view>
+    </view>
+
+    <!-- 详情区域 -->
+    <view id="detail-section" class="detail-section">
+      <view class="section-title">产品介绍</view>
+      <view class="info-title">乘车信息</view>
+
+      <view class="notice-card">
+        <text>为提高服务质量，在发车前一天，专员还会将</text>
+        <text class="highlight">【司机电话/车牌号/乘车定位】</text>
+        <text>通过电话或短信通知您</text>
+      </view>
+
+      <view class="notice-card">
+        <text>任何问题，请拨打客服电话：</text>
+        <text class="highlight">点击“客服图标”即可拨打</text>
+      </view>
+
+      <view class="info-card">
+        <view class="info-row">
+          <text class="info-label">发车地点：</text>
+          <text class="info-value">正谈炸鸡（池北区店）（在下单界面，查看地图定位）</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">目的地：</text>
+          <text class="info-value">雪乡</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">行驶时间：</text>
+          <text class="info-value">约6小时</text>
+        </view>
+      </view>
+
+      <view class="note-card">
+        <text>婴儿如需坐位，或满三周岁，需要票乘车</text>
+      </view>
+
+      <view class="refund-title">退票规则</view>
+      <view class="refund-table">
+        <view class="refund-header">
+          <text class="refund-cell left">距离发车时间</text>
+          <text class="refund-cell right">手续费</text>
+        </view>
+        <view class="refund-row">
+          <text class="refund-cell left">48～24小时</text>
+          <text class="refund-cell right">20%</text>
+        </view>
+        <view class="refund-row">
+          <text class="refund-cell left">24～12小时</text>
+          <text class="refund-cell right">30%</text>
+        </view>
+        <view class="refund-row">
+          <text class="refund-cell left">小于12小时</text>
+          <text class="refund-cell right">80%</text>
+        </view>
+        <view class="refund-row">
+          <text class="refund-cell left">下单十分钟内</text>
+          <text class="refund-cell right">无</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部导航栏 -->
+  <view class="bottom-nav-bar">
+    <view class="nav-item" bind:tap="goHome">
+      <text class="nav-icon">🏠</text>
+      <text class="nav-text">首页</text>
+    </view>
+    <view class="nav-item" bind:tap="toggleFavorite">
+      <text class="nav-icon">{{isFavorite ? '❤️' : '🤍'}}</text>
+      <text class="nav-text">收藏</text>
+    </view>
+    <view class="nav-item" bind:tap="goCart">
+      <text class="nav-icon">🛒</text>
+      <text class="nav-text">购物车</text>
+    </view>
+    <button class="buy-now-btn" bind:tap="onBuyNow">立即购买</button>
   </view>
+
+  <!-- 规格选择弹窗 -->
+  <t-popup visible="{{showSpecPickerPopup}}" placement="bottom" bind:visible-change="onSpecPickerClose">
+    <view class="spec-picker-popup">
+      <view class="picker-header">
+        <text class="picker-title">选择规格</text>
+        <view class="picker-close" bind:tap="closeSpecPicker">完成</view>
+      </view>
+      <view class="spec-options">
+        <view class="spec-option-item {{selectedSpecIndex === index ? 'selected' : ''}}" 
+              wx:for="{{specOptions}}" 
+              wx:key="index"
+              bind:tap="selectSpec"
+              data-index="{{index}}">
+          <text class="spec-option-text">{{item.time}} {{item.date}}</text>
+        </view>
+      </view>
+    </view>
+  </t-popup>
 
   <!-- 日期选择器 -->
   <t-popup visible="{{showDatePickerPopup}}" placement="bottom" bind:visible-change="onDatePickerClose">
