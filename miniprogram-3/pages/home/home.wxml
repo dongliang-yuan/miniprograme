@@ -1,0 +1,69 @@
+<view class="home-page">
+  <!-- 顶部导航栏 -->
+  <view class="home-header">
+    <view class="header-left">
+      <view class="logo">
+        <text class="logo-text">旅</text>
+      </view>
+    </view>
+    <view class="header-search" bind:tap="navToSearchPage">
+      <t-search
+        t-class-input="search-input"
+        t-class-input-container="search-container"
+        placeholder="搜索商品名称"
+        leftIcon=""
+        disabled
+      >
+        <t-icon slot="left-icon" prefix="wr" name="search" size="36rpx" color="#999" />
+      </t-search>
+    </view>
+    <view class="header-right">
+      <view class="header-icon">⋯</view>
+    </view>
+  </view>
+
+  <!-- 警告提示区域 -->
+  <view class="alert-section">
+    <view class="alert-warning">当日车票紧张,如需尝试购买请联系客服</view>
+    <view class="alert-info">任何问题可点击"电话图标"跳转客服电话</view>
+  </view>
+
+  <!-- 服务快捷入口 -->
+  <view class="service-grid">
+    <view 
+      class="service-item" 
+      wx:for="{{serviceList}}" 
+      wx:key="index"
+      bind:tap="onServiceClick"
+      data-index="{{index}}"
+    >
+      <view class="service-icon {{item.type === 'scenic' ? 'scenic-bg' : 'line-bg'}}">
+        <text wx:if="{{item.type === 'scenic'}}" class="service-icon-emoji">👥</text>
+        <text wx:else class="service-icon-text">{{item.label}}</text>
+      </view>
+      <text class="service-name">{{item.name}}</text>
+    </view>
+  </view>
+
+  <!-- 交通车票标题栏 -->
+  <view class="ticket-section-header">
+    <text class="section-title">交通车票</text>
+    <view class="service-phone" bind:tap="callService">
+      <text class="phone-icon">📞</text>
+    </view>
+  </view>
+
+  <!-- 车票列表 -->
+  <view class="ticket-list">
+    <ticket-card
+      wx:for="{{ticketList}}"
+      wx:key="index"
+      route="{{item.route}}"
+      price="{{item.price}}"
+      ticket-id="{{item.id}}"
+      bind:click="onTicketClick"
+    />
+  </view>
+
+  <t-toast id="t-toast" />
+</view>

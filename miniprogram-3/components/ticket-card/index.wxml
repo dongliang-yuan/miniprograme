@@ -1,0 +1,10 @@
+<view class="ticket-card" bind:tap="onClick">
+  <view class="ticket-card__icon">
+    <text class="ticket-icon">🚌</text>
+  </view>
+  <view class="ticket-card__content">
+    <view class="ticket-card__route">{{route}}</view>
+    <view class="ticket-card__price">¥ {{price}}</view>
+  </view>
+</view>
+

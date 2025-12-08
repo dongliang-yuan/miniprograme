@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "车票详情",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "t-popup": "tdesign-miniprogram/popup/popup",
+    "t-toast": "tdesign-miniprogram/toast/toast"
+  }
+}
+

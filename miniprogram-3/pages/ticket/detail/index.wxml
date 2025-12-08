@@ -1,0 +1,96 @@
+<view class="ticket-detail-page">
+  <!-- 顶部导航栏 -->
+  <view class="detail-header">
+    <view class="header-back" bind:tap="goBack">
+      <text class="back-icon">‹</text>
+    </view>
+    <text class="header-title">车票详情</text>
+    <view class="header-placeholder"></view>
+  </view>
+
+  <!-- 出发地和目的地 -->
+  <view class="route-info">
+    <view class="route-item">
+      <text class="route-label">出发地</text>
+      <text class="route-value">{{departure}}</text>
+    </view>
+    <view class="route-swap" bind:tap="swapRoute">
+      <text class="swap-icon">⇄</text>
+    </view>
+    <view class="route-item">
+      <text class="route-label">目的地</text>
+      <text class="route-value">{{destination}}</text>
+    </view>
+  </view>
+
+  <!-- 日期选择 -->
+  <view class="date-section">
+    <view class="date-display">
+      <text class="date-label">日期</text>
+      <text class="date-value">{{selectedDate}}</text>
+    </view>
+    <button class="date-btn" bind:tap="showDatePicker">选择日期</button>
+  </view>
+
+  <!-- 警告提示 -->
+  <view class="alert-banner">
+    <text class="alert-text">今日车票紧张</text>
+  </view>
+
+  <!-- 车票列表 -->
+  <view class="ticket-list">
+    <view 
+      class="ticket-item" 
+      wx:for="{{ticketList}}" 
+      wx:key="index"
+    >
+      <view class="ticket-time">
+        <view class="time-group">
+          <text class="time-value">{{item.departureTime}}</text>
+          <text class="time-label">{{item.departure}}</text>
+        </view>
+        <view class="time-arrow">→</view>
+        <view class="time-group">
+          <text class="time-value">{{item.arrivalTime}}</text>
+          <text class="time-label">{{item.destination}}</text>
+        </view>
+      </view>
+      <view class="ticket-footer">
+        <text class="ticket-price">¥{{item.price}}</text>
+        <button class="buy-btn" bind:tap="onBuyTicket" data-index="{{index}}">购买</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部客服电话 -->
+  <view class="service-footer">
+    <view class="service-phone-btn" bind:tap="callService">
+      <text class="phone-icon">📞</text>
+      <text class="service-text">客服电话</text>
+    </view>
+  </view>
+
+  <!-- 日期选择器 -->
+  <t-popup visible="{{showDatePickerPopup}}" placement="bottom" bind:visible-change="onDatePickerClose">
+    <view class="date-picker-popup">
+      <view class="picker-header">
+        <text class="picker-title">选择日期</text>
+        <view class="picker-close" bind:tap="closeDatePicker">完成</view>
+      </view>
+      <picker 
+        mode="date" 
+        value="{{selectedDate}}" 
+        start="{{minDate}}"
+        end="{{maxDate}}"
+        bind:change="onDateChange"
+      >
+        <view class="picker-content">
+          <text class="picker-value">{{selectedDate}}</text>
+        </view>
+      </picker>
+    </view>
+  </t-popup>
+
+  <t-toast id="t-toast" />
+</view>
+

@@ -1,0 +1,175 @@
+page {
+  background: #f5f5f5;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 96rpx);
+}
+
+.home-page {
+  min-height: 100vh;
+}
+
+/* 顶部导航栏 */
+.home-header {
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+  padding: 20rpx 24rpx;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.header-left {
+  margin-right: 20rpx;
+}
+
+.logo {
+  width: 80rpx;
+  height: 80rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.logo-text {
+  font-size: 32rpx;
+  color: #fff;
+  font-weight: bold;
+}
+
+.header-search {
+  flex: 1;
+}
+
+.search-container {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-radius: 40rpx !important;
+  height: 64rpx !important;
+}
+
+.search-input {
+  font-size: 26rpx !important;
+  color: #666 !important;
+}
+
+.header-right {
+  margin-left: 20rpx;
+  display: flex;
+  align-items: center;
+}
+
+.header-icon {
+  font-size: 40rpx;
+  color: #fff;
+  line-height: 1;
+}
+
+/* 警告提示区域 */
+.alert-section {
+  padding: 24rpx;
+  background: #fff;
+}
+
+.alert-warning {
+  font-size: 26rpx;
+  color: #ff4d4f;
+  margin-bottom: 12rpx;
+  line-height: 1.5;
+}
+
+.alert-info {
+  font-size: 24rpx;
+  color: #1890ff;
+  line-height: 1.5;
+}
+
+/* 服务快捷入口 */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32rpx;
+  padding: 32rpx 24rpx;
+  background: #fff;
+  margin-top: 16rpx;
+}
+
+.service-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.service-icon {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
+}
+
+.line-bg {
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+}
+
+.scenic-bg {
+  background: linear-gradient(135deg, #ff85c0 0%, #ff4d9a 100%);
+}
+
+.service-icon-text {
+  font-size: 28rpx;
+  color: #fff;
+  font-weight: 500;
+}
+
+.service-icon-emoji {
+  font-size: 48rpx;
+  line-height: 1;
+}
+
+.service-name {
+  font-size: 24rpx;
+  color: #333;
+  text-align: center;
+}
+
+/* 交通车票标题栏 */
+.ticket-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx 24rpx 24rpx;
+  background: #fff;
+  margin-top: 16rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  color: #1890ff;
+  font-weight: 600;
+}
+
+.service-phone {
+  width: 80rpx;
+  height: 80rpx;
+  background: #f0f7ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-icon {
+  font-size: 48rpx;
+  line-height: 1;
+}
+
+/* 车票列表 */
+.ticket-list {
+  padding: 0 24rpx 24rpx;
+  background: #fff;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24rpx;
+}
